@@ -1,28 +1,39 @@
 <template>
   <div id="app">
-    <router-link to="/eg1" class="text-5xl">HomePage1</router-link>
-    <router-link to="/eg2" class="text-5xl">HomePage2</router-link>
-    <router-link to="/eg3" class="text-5xl">HomePage3</router-link>
-    <br>
-    <router-view></router-view>
+    <HelloWorld :items="listColor" @remove="handleRemove" />
   </div>
 </template>
+
 <script>
- 
+import { ref } from "vue";
+import HelloWorld from "./components/HelloWorld.vue";
+import data from "@/data/MOCK_DATA.js";
 
 export default {
-  
   components: {
-
-},
-  data() {
-    return {
-       
-    }
+    HelloWorld,
   },
-  methods: {
-   
-  }
+  setup() {
+    const listColor = ref(data); 
+    
+    function handleRemove(id) {
+      const index = listColor.value.findIndex((item) => item.id === id);
+      if (index !== -1) {
+        listColor.value.splice(index, 1);
+      }
+    }
+    
+    return {
+      handleRemove,
+      listColor,
+    };
+  },
 };
 </script>
 
+<style>
+#app {
+  text-align: center;
+  padding: 20px;
+}
+</style>
